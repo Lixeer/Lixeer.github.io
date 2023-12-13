@@ -1,2 +1,2 @@
-# ✨SeeYa blog✨
+# ✨SeeYa's blog✨
 
