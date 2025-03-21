@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>车间监控系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { display: flex; font-family: Arial, sans-serif; height: 100vh; }
+        .sidebar { width: 200px; background: #333; color: white; padding: 20px; }
+        .sidebar ul { list-style: none; padding: 0; }
+        .sidebar ul li { padding: 15px; cursor: pointer; border-bottom: 1px solid #555; transition: background 0.3s; }
+        .sidebar ul li:hover { background: #555; }
+        .content { flex: 1; padding: 20px; opacity: 1; transition: opacity 0.5s ease-in-out; }
+        .fade-out { opacity: 0; }
+        .charts-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 20px; }
+        .chart { width: 100%; height: 300px; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <ul>
+            <li onclick="showContent('monitor')">车间监控</li>
+            <li onclick="showContent('network')">网络配置</li>
+            <li onclick="showContent('logs')">日志</li>
+            <li onclick="showContent('visualization')">可视化平台</li>
+        </ul>
+    </div>
+    <div class="content" id="content">
+        <h2>欢迎使用车间监控系统</h2>
+        <p>请选择左侧的选项查看内容。</p>
+    </div>
+    <script>
+        function showContent(section) {
+            const content = document.getElementById("content");
+            content.classList.add("fade-out");
+            setTimeout(() => {
+                if (section === "monitor") {
+                    content.innerHTML = "<h2>车间监控</h2><p>这里是车间监控的内容。</p>";
+                } else if (section === "network") {
+                    content.innerHTML = "<h2>网络配置</h2><p>这里是网络配置的内容。</p>";
+                } else if (section === "logs") {
+                    content.innerHTML = "<h2>日志</h2><p>这里是日志内容。</p>";
+                } else if (section === "visualization") {
+                    content.innerHTML = `
+                        <h2>可视化平台</h2>
+                        <div class="charts-container">
+                            <div id="barChart" class="chart"></div>
+                            <div id="lineChart" class="chart"></div>
+                            <div id="pieChart" class="chart"></div>
+                            <div id="columnChart" class="chart"></div>
+                        </div>
+                    `;
+                    setTimeout(initCharts, 100);
+                }
+                content.classList.remove("fade-out");
+            }, 300);
+        }
+
+        function initCharts() {
+            const barChart = echarts.init(document.getElementById('barChart'));
+            barChart.setOption({
+                title: { text: '柱状图' },
+                xAxis: { type: 'category', data: ['A', 'B', 'C', 'D', 'E'] },
+                yAxis: { type: 'value' },
+                series: [{ type: 'bar', data: [10, 20, 30, 40, 50] }]
+            });
+
+            const lineChart = echarts.init(document.getElementById('lineChart'));
+            lineChart.setOption({
+                title: { text: '折线图' },
+                xAxis: { type: 'category', data: ['Jan', 'Feb', 'Mar', 'Apr', 'May'] },
+                yAxis: { type: 'value' },
+                series: [{ type: 'line', data: [5, 15, 25, 35, 45] }]
+            });
+
+            const pieChart = echarts.init(document.getElementById('pieChart'));
+            pieChart.setOption({
+                title: { text: '饼图' },
+                series: [{ type: 'pie', data: [
+                    { value: 40, name: 'A' },
+                    { value: 30, name: 'B' },
+                    { value: 20, name: 'C' },
+                    { value: 10, name: 'D' }
+                ] }]
+            });
+
+            const columnChart = echarts.init(document.getElementById('columnChart'));
+            columnChart.setOption({
+                title: { text: '柱状图' },
+                xAxis: { type: 'category', data: ['X', 'Y', 'Z'] },
+                yAxis: { type: 'value' },
+                series: [{ type: 'bar', data: [15, 25, 35] }]
+            });
+        }
+    </script>
+</body>
+</html>
